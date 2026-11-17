@@ -1,0 +1,22 @@
+# Laravel
+/backend/vendor/
+/backend/.env
+/backend/.env.*.local
+/backend/storage/*.key
+/backend/bootstrap/cache/*.php
+/backend/storage/framework/cache/data/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/storage/logs/*.log
+/backend/database/*.sqlite
+
+# React/Vite
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.env*
+!/frontend/.env.example
+
+# Local tooling
+.idea/
+.vscode/*
+!.vscode/extensions.json
