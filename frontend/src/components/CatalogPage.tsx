@@ -268,10 +268,10 @@ export function CatalogPage({ user, settings }: { user: AuthUser | null; setting
         setMetadata(
           categoryForMetadata?.meta_title || (categoryForMetadata
             ? `${categoryForMetadata.name} — Aluxtorg`
-            : params.get('q') ? `Поиск: ${params.get('q')} — Aluxtorg` : 'Aluxtorg — текстиль и товары для дома в Казахстане'),
+            : params.get('q') ? `Поиск: ${params.get('q')} — Aluxtorg` : 'Aluxtorg — экокожа для мебели в Казахстане'),
           categoryForMetadata?.meta_description || (categoryForMetadata
             ? `Выбирайте товары в категории «${categoryForMetadata.name}» интернет-магазина Aluxtorg. Цены в тенге и заказ онлайн.`
-            : 'Интернет-магазин Aluxtorg в Казахстане: каталог текстиля и товаров для дома, характеристики и онлайн-заказ.'),
+            : 'Интернет-магазин Aluxtorg в Казахстане: экокожа для мебели, варианты, характеристики и онлайн-заказ.'),
           categoryForMetadata ? `/categories/${encodeURIComponent(categoryForMetadata.slug)}` : '/',
         )
       } catch (requestError) {
@@ -399,16 +399,16 @@ export function CatalogPage({ user, settings }: { user: AuthUser | null; setting
                     <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/10" />
                     <span className="relative block max-w-2xl">
                       <span className="mb-3 inline-flex rounded-full border border-white/40 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] backdrop-blur sm:text-xs">
-                        Aluxtorg · интернет-магазин в Казахстане
+                        Aluxtorg · экокожа для мебели
                       </span>
                       <h1 className="block text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
                         {heroBanners[0].title}
                       </h1>
                       <span className="mt-3 block max-w-xl text-sm leading-6 text-white/90 sm:mt-4 sm:text-base">
-                        Выбирайте текстиль и товары для дома, сравнивайте характеристики и оформляйте заказ онлайн.
+                        Выбирайте фактуру и цвет экокожи, сравнивайте характеристики и оформляйте заказ онлайн.
                       </span>
                       <span className="mt-6 flex flex-wrap gap-3">
-                        <a className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 text-sm font-semibold text-[#24483b] transition-transform group-hover:translate-x-1" href={heroBanners[0].destination_url || '#catalog'}>
+                        <a className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 text-sm font-semibold !text-[#24483b] transition-transform group-hover:translate-x-1" href={heroBanners[0].destination_url || '#catalog'}>
                           Перейти в каталог <ArrowRight aria-hidden="true" className="size-4" />
                         </a>
                         {whatsapp && (
@@ -421,11 +421,11 @@ export function CatalogPage({ user, settings }: { user: AuthUser | null; setting
                   </div>
                 ) : (
                   <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#24483b] via-[#315c4d] to-[#8a9e85] px-6 py-10 text-white sm:px-10 sm:py-14 lg:px-14">
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/75">Aluxtorg · интернет-магазин в Казахстане</p>
-                    <h1 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl">Текстиль и товары для дома — выбирайте онлайн</h1>
-                    <p className="mt-4 max-w-xl text-sm leading-6 text-white/85 sm:text-base">Изучайте характеристики и варианты товаров, добавляйте покупки в корзину и оформляйте заказ.</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/75">Aluxtorg · экокожа для мебели</p>
+                    <h1 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl">Экокожа для мебели — выбирайте онлайн</h1>
+                    <p className="mt-4 max-w-xl text-sm leading-6 text-white/85 sm:text-base">Выбирайте фактуру и цвет, сравнивайте характеристики и оформляйте заказ онлайн.</p>
                     <div className="mt-6 flex flex-wrap gap-3">
-                      <a className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 text-sm font-semibold text-[#24483b]" href="#catalog">
+                      <a className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-white px-5 text-sm font-semibold !text-[#24483b]" href="#catalog">
                         Открыть каталог <ArrowRight aria-hidden="true" className="size-4" />
                       </a>
                       {whatsapp && <a className="inline-flex min-h-11 items-center rounded-xl border border-white/60 px-5 text-sm font-semibold !text-white hover:bg-white/10" href={whatsapp} rel="noreferrer" target="_blank">WhatsApp</a>}
@@ -638,7 +638,7 @@ export function CatalogPage({ user, settings }: { user: AuthUser | null; setting
                 <div className="rounded-2xl border bg-card p-12 text-center">
                   <h2 className="text-lg font-semibold">Товары не найдены</h2>
                   <p className="mt-2 text-sm text-muted-foreground">Измените запрос или выберите другую категорию.</p>
-                  <a className="mt-5 inline-flex rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground" href="/">Сбросить фильтры</a>
+                  <a className="mt-5 inline-flex rounded-xl bg-primary px-4 py-2.5 text-sm font-medium !text-white" href="/">Сбросить фильтры</a>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">

@@ -108,39 +108,45 @@ test('manager can switch the order list between cards and table on mobile', asyn
   await expect(page.getByRole('button', { name: 'Открыть заказ ORD-LIST-1' })).toBeVisible()
 })
 
-test('mobile storefront shows the demo hero and keeps filter actions above the tab bar', async ({ page }) => {
+test('mobile storefront shows the eco-leather hero with readable actions above the tab bar', async ({ page }) => {
   const category = { id: 1, parent_id: null, name: 'Ткани', slug: 'tkani', meta_title: null, meta_description: null }
   await page.setViewportSize({ width: 360, height: 800 })
   await page.route('**/api/v1/auth/me', (route) => route.fulfill({ json: { data: customer } }))
   await page.route('**/api/v1/categories', (route) => route.fulfill({ json: { data: [category] } }))
   await page.route('**/api/v1/banners', (route) => route.fulfill({
-    json: { data: [{ id: 1, title: 'Текстиль для ваших идей', placement: 'home_hero', secure_url: 'https://example.test/hero.jpg', alt_text: 'Демо-баннер', destination_url: '/categories/tkani' }] },
+    json: { data: [{ id: 1, title: 'Экокожа для мебели', placement: 'home_hero', secure_url: 'https://example.test/hero.jpg', alt_text: 'Демо-баннер', destination_url: '/categories/tkani' }] },
   }))
-  await page.route('**/api/v1/products**', (route) => route.fulfill({
-    json: {
-      data: [{
-        id: 1,
-        category_id: 1,
-        category,
-        slug: 'demo-product',
-        name: 'Демо-товар',
-        description: null,
-        is_published: true,
-        meta_title: null,
-        meta_description: null,
-        min_price_kzt: 1000,
-        max_price_kzt: 1000,
-        available: true,
-        images: [],
-        variants: [],
-      }],
-      meta: { current_page: 1, last_page: 1, total: 1 },
-    },
-  }))
+  await page.route('**/api/v1/products**', (route) => {
+    const filtered = new URL(route.request().url()).searchParams.has('min_price')
+    return route.fulfill({
+      json: {
+        data: filtered ? [] : [{
+          id: 1,
+          category_id: 1,
+          category,
+          slug: 'demo-product',
+          name: 'Демо-товар',
+          description: null,
+          is_published: true,
+          meta_title: null,
+          meta_description: null,
+          min_price_kzt: 1000,
+          max_price_kzt: 1000,
+          available: true,
+          images: [],
+          variants: [],
+        }],
+        meta: { current_page: 1, last_page: 1, total: filtered ? 0 : 1 },
+      },
+    })
+  })
 
-  await page.goto('/')
+  await page.goto('/?min_price=20000')
   await expect(page.getByRole('img', { name: 'Демо-баннер' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Демо-товар' })).toBeVisible()
+  const heroAction = page.getByRole('link', { name: 'Перейти в каталог' })
+  await expect(heroAction).toHaveCSS('color', 'rgb(36, 72, 59)')
+  await expect(page.getByRole('heading', { name: 'Товары не найдены' })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Товары' }).getByRole('link', { name: 'Сбросить фильтры' })).toHaveCSS('color', 'rgb(255, 255, 255)')
   const apply = page.getByRole('button', { name: 'Применить' })
   await apply.scrollIntoViewIfNeeded()
 
