@@ -192,12 +192,32 @@ class AuthAccessTest extends TestCase
             'api.v1.auth.email.verify',
             now()->addMinutes(10),
             ['id' => $user->id, 'hash' => sha1($user->getEmailForVerification())],
+            absolute: false,
         );
 
         $this->getJson($url)
             ->assertOk()
             ->assertJsonPath('message', 'Электронная почта подтверждена.');
 
+        $this->assertNotNull($user->fresh()->email_verified_at);
+    }
+
+    public function test_generated_verification_notification_link_is_accepted_by_the_api_route(): void
+    {
+        Notification::fake();
+        $user = User::factory()->unverified()->create();
+        $user->sendEmailVerificationNotification();
+        $verificationUrl = null;
+
+        Notification::assertSentTo($user, VerifyEmail::class, function (VerifyEmail $notification) use ($user, &$verificationUrl): bool {
+            $verificationUrl = $notification->toMail($user)->actionUrl;
+
+            return true;
+        });
+
+        $this->assertIsString($verificationUrl);
+        $this->get($verificationUrl)
+            ->assertRedirect(config('app.frontend_url').'/?verified=1');
         $this->assertNotNull($user->fresh()->email_verified_at);
     }
 

@@ -36,7 +36,7 @@ Route::prefix('v1/auth')->name('api.v1.auth.')->group(function () {
     Route::post('/forgot-password', [AuthController::class, 'sendPasswordResetLink'])->middleware('throttle:password-reset');
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->middleware('throttle:password-reset');
     Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])
-        ->middleware(['signed', 'throttle:6,1'])
+        ->middleware(['signed:relative', 'throttle:6,1'])
         ->name('email.verify');
 
     Route::middleware('auth:sanctum')->group(function () {
